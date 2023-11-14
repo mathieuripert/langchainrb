@@ -158,8 +158,6 @@ module Langchain::LLM
 
     private
 
-    attr_reader :response_chunks
-
     def reset_response_chunks
       @response_chunks = []
     end
@@ -186,7 +184,7 @@ module Langchain::LLM
       parameters = default_params.merge(params)
 
       if block
-        @response_chunks = []
+        reset_response_chunks
         parameters[:stream] = proc do |chunk, _bytesize|
           chunk_content = chunk.dig("choices", 0)
           @response_chunks << chunk
